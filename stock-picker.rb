@@ -5,17 +5,20 @@ def stock_picker(price_list)
     sell - buy
   end
 
-  best_profit = [0,0]
+  buy = price_list[0]
+  sell = price_list[1]
+  highest_profit = profit(buy,sell)
 
-  price_list.sort.map do |sorted_price|
-    price_list[price_list.index(sorted_price)+1..].each do |price|
-      if profit(sorted_price,price) > profit(best_profit[0],best_profit[1]) then
-        best_profit = [sorted_price,price]
+  price_list.each_with_index do |buy_price, index|
+    price_list[index+1..].each do |sell_price|
+      if profit(buy_price,sell_price) > highest_profit then
+        highest_profit = profit(buy_price,sell_price)
+        buy = price_list.index(buy_price)
+        sell = price_list.index(sell_price)
       end
     end
   end
-  best_profit
-  p [price_list.index(best_profit[0]),price_list.index(best_profit[1])]
+  p [buy,sell]
 end
 
 stock_picker([17,3,6,9,15,8,6,1,10])
